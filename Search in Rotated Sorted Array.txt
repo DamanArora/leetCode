@@ -1,0 +1,49 @@
+Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+
+(i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
+
+You are given a target value to search. If found in the array return its index, otherwise return -1.
+
+You may assume no duplicate exists in the array.
+
+Your algorithm's runtime complexity must be in the order of O(log n).
+
+Example 1:
+
+Input: nums = [4,5,6,7,0,1,2], target = 0
+Output: 4
+Example 2:
+
+Input: nums = [4,5,6,7,0,1,2], target = 3
+Output: -1
+
+------------------------------------------------------------------------------------------------
+
+class Solution {
+    public int search(int[] nums, int t) {
+        int pos = binary(0, (nums.length)-1, nums, t);
+        return pos;
+    }
+    
+    public int binary(int st, int e, int[] nums, int t){
+        if(st>e){
+            return -1;
+        }
+        
+        int mid = (st+e)/2;
+        if(nums[mid] == t){
+            return mid;
+        }else if(nums[mid]<=nums[e]){
+            if(t>nums[mid] && t<=nums[e]){
+                return binary(mid+1, e, nums, t);
+            }
+            return binary(st, mid-1, nums, t);
+        }else if(nums[mid]>=nums[st]){
+            if(t<nums[mid] && t>=nums[st]){
+                return binary(st, mid-1, nums, t);
+            }
+            return binary(mid+1, e, nums, t);
+        }
+        return -1;
+    }
+}
